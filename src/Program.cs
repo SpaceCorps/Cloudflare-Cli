@@ -1,6 +1,7 @@
 using Cloudflare.Console.Commands.PageRules;
 using Cloudflare.Console.Commands.Records;
 using Cloudflare.Console.Commands.Settings;
+using Cloudflare.Console.Commands.Ssl;
 using Cloudflare.Console.Commands.Zones;
 using Spectre.Console.Cli;
 
@@ -49,6 +50,13 @@ app.Configure(config =>
             .WithDescription("Get a single zone setting");
         settings.AddCommand<SetSettingCommand>("set")
             .WithDescription("Set a zone setting, e.g. ssl or always_use_https");
+    });
+
+    config.AddBranch("ssl", ssl =>
+    {
+        ssl.SetDescription("Inspect TLS configuration");
+        ssl.AddCommand<SslStatusCommand>("status")
+            .WithDescription("Show encryption mode, Universal SSL and edge certificate status");
     });
 
     config.AddBranch("pagerules", pagerules =>

@@ -14,8 +14,17 @@ dotnet tool install -g Cloudflare.Console
 
 ## Authentication
 
-Create an API token at **My Profile → API Tokens** with `Zone:Edit`, `DNS:Edit` and
-`Page Rules:Edit` on the zones you need, then:
+Create an API token at **My Profile → API Tokens** with these permissions, then:
+
+| Scope | Permission | Access | Needed for |
+|-------|-----------|--------|------------|
+| Account | Zone | Edit | `zones add` |
+| Zone | Zone | Read | zone name resolution, `zones list/get` |
+| Zone | DNS | Edit | all `records` commands |
+| Zone | Zone Settings | Edit | `settings set` |
+| Zone | Page Rules | Edit | `pagerules` |
+| Zone | SSL and Certificates | Read | `ssl status` |
+
 
 ```bash
 export CLOUDFLARE_API_TOKEN=your-token
@@ -53,6 +62,8 @@ cloudflare <command> [options]
 | `settings list` | List all settings of a zone |
 | `settings get` | Get a single zone setting |
 | `settings set` | Set a zone setting, e.g. `ssl` or `always_use_https` |
+| **SSL** | |
+| `ssl status` | Show encryption mode, Universal SSL and edge certificate status |
 | **Page rules** | |
 | `pagerules list` | List the page rules of a zone |
 | `pagerules add` | Add a page rule, e.g. to force HTTPS on one hostname |
@@ -94,6 +105,12 @@ use a page rule:
 
 ```bash
 cloudflare pagerules add --zone example.com --url "secure.example.com/*" --always-use-https
+```
+
+Check that HTTPS is actually live before relying on it:
+
+```bash
+cloudflare ssl status --zone example.com
 ```
 
 ## Notes
