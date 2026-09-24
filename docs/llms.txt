@@ -1,0 +1,67 @@
+# Cloudflare CLI
+
+> A blazing fast native command-line tool and agent interface for the Cloudflare v4 REST API. Built in Rust for developers and autonomous AI agents.
+
+## When to Use This CLI
+
+Use the `cloudflare` CLI whenever you need to:
+- **Manage DNS records:** List, create, update, delete, and proxy DNS records (A, AAAA, CNAME, MX, TXT, SRV).
+- **Zone migrations:** Import and export standard BIND zone files for safe lift-and-shift DNS migrations.
+- **Proxy management:** Toggle Cloudflare edge proxy (orange cloud vs grey cloud) for individual records.
+- **Zone lifecycle:** List domains, query zone status and assigned nameservers, or register new domains.
+- **Zone settings:** Read and update zone-level configuration such as SSL encryption modes, `always_use_https`, and TLS min version.
+- **Inspect SSL/TLS status:** Check encryption modes, Universal SSL enablement, and edge certificate pack deployment status in one consolidated call.
+- **Configure Page Rules:** List and create URL page rules (e.g. enforcing HTTPS on specific subdomains).
+- **Purge edge cache:** Purge entire zone caches or targeted resource URLs.
+- **Agentic automation:** Execute reliable DNS and edge workflows via `--json` output and stable error exit codes.
+
+Do NOT use this tool if:
+- You need graphical dashboard interactions (use https://dash.cloudflare.com).
+- You are managing non-Cloudflare DNS providers (e.g. Route53, NS1).
+
+## Core Agent Operating Principles
+
+1. **Explicit Account or Token Context:** Pass `--account <name>` (short `-a <name>`) to use stored OS keystore profiles, or provide `--api-token <token>` / `CLOUDFLARE_API_TOKEN` in headless environments.
+2. **Zone Resolution:** Anywhere `--zone` is expected, pass either the domain name (e.g. `example.com`) or the 32-character hex ID. The CLI resolves names automatically.
+3. **Structured Outputs:** Supply `--json` when parsing command results in scripts, pipelines, or LLM tool loops.
+4. **Machine-Readable Errors:** On failure, stderr outputs a structured error envelope with stable machine-readable codes (`auth_required`, `not_found`, `rate_limited`, `invalid_input`, `no_account`).
+
+## Key Command Patterns
+
+### Authentication & Profiles
+- `cloudflare login [name]`: Interactively authenticate and store token in OS keystore.
+- `cloudflare accounts add <name> --api-token <token>`: Add named account profile.
+- `cloudflare accounts list [--check]`: List configured accounts and optionally probe validity.
+- `cloudflare accounts test <name>`: Test stored credentials against the API.
+
+### Zones & Cache
+- `cloudflare zones list --json`: List all zones in the account.
+- `cloudflare zones get --zone example.com --json`: Get zone status and assigned nameservers.
+- `cloudflare zones add --name example.com --account-id <id> --json`: Add a domain as a new zone.
+- `cloudflare zones purge-cache --zone example.com --everything --json`: Purge entire edge cache.
+- `cloudflare zones purge-cache --zone example.com --file https://example.com/app.js --json`: Purge specific URLs.
+
+### DNS Records
+- `cloudflare records list --zone example.com [--type <TYPE>] --json`: List DNS records.
+- `cloudflare records export --zone example.com [--out zone.txt]`: Export zone as BIND file.
+- `cloudflare records import --zone example.com --file zone.txt [--proxied] --json`: Import BIND zone file.
+- `cloudflare records add --zone example.com --type A --name web --content 1.2.3.4 [--proxied] --json`: Add DNS record.
+- `cloudflare records update --zone example.com --name web --content 1.2.3.5 --json`: Update record by name or ID.
+- `cloudflare records proxy --zone example.com --name web --on --json`: Enable orange cloud proxy.
+- `cloudflare records proxy --zone example.com --name web --off --json`: Disable proxy (DNS only).
+- `cloudflare records delete --zone example.com --name web --json`: Delete record by name or ID.
+
+### Settings & SSL
+- `cloudflare settings list --zone example.com --json`: List all zone settings.
+- `cloudflare settings get --zone example.com --name ssl --json`: Read setting.
+- `cloudflare settings set --zone example.com --name ssl --value full --json`: Update setting.
+- `cloudflare ssl status --zone example.com --json`: Consolidated encryption, Universal SSL, and cert pack status.
+
+### Page Rules
+- `cloudflare pagerules list --zone example.com --json`: List page rules.
+- `cloudflare pagerules add --zone example.com --url "store.example.com/*" --always-use-https --json`: Add page rule.
+
+## API Documentation Links
+- Full Website: https://spacecorps.github.io/Cloudflare-Cli/
+- Detailed Agent Manual: https://spacecorps.github.io/Cloudflare-Cli/llms-full.txt
+- Cloudflare API Docs: https://developers.cloudflare.com/api/

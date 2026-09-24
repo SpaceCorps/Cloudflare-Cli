@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About · Cloudflare CLI</title>
+  <meta name="description" content="About Cloudflare CLI: An open source native Rust command-line tool and agent interface for the Cloudflare API.">
+  <link rel="canonical" href="https://spacecorps.github.io/Cloudflare-Cli/about.html">
+  <meta property="og:title" content="About · Cloudflare CLI">
+  <meta property="og:description" content="About Cloudflare CLI: An open source native Rust command-line tool and agent interface for the Cloudflare API.">
+  <meta property="og:url" content="https://spacecorps.github.io/Cloudflare-Cli/about.html">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://spacecorps.github.io/Cloudflare-Cli/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="is-agentic-site-type" content="content">
+  <style>
+    body { background: #090d16; color: #f1f5f9; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.7; padding: 40px 20px; }
+    .content-box { max-width: 800px; margin: 0 auto; background: rgba(22, 27, 46, 0.7); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 40px; }
+    h1 { font-size: 2.2rem; margin-bottom: 20px; color: #fff; }
+    h2 { font-size: 1.4rem; margin-top: 30px; margin-bottom: 12px; color: #38bdf8; }
+    p { margin-bottom: 16px; color: #94a3b8; }
+    a { color: #38bdf8; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .back { display: inline-block; margin-bottom: 24px; color: #6366f1; font-weight: 500; }
+  </style>
+</head>
+<body>
+  <div class="content-box">
+    <a href="./" class="back">&larr; Back to Cloudflare CLI</a>
+    <h1>About Cloudflare CLI</h1>
+    
+    <p>Cloudflare CLI is a high-performance, open-source command-line tool and programmatic automation interface designed for Cloudflare's v4 API. Maintained under the SpaceCorps open-source engineering collective, the project originated to provide developers and autonomous AI agents with a single, standalone binary capable of operating seamlessly across macOS, Linux, and Windows without runtime dependencies or heavy interpreter overhead.</p>
+
+    <h2>Project Mission & Origins</h2>
+    <p>Managing DNS migrations, zone settings, edge SSL configurations, and page rules across environments requires fast, dependable automation. The initial prototype CLI was developed as a .NET global tool (<code>Cloudflare.Console</code>) by Niels Bosma. In 2026, SpaceCorps ported the codebase to native Rust (Edition 2024) to achieve sub-millisecond cold starts, strict compile-time memory safety, and seamless execution in modern CI/CD and AI agent environments.</p>
+
+    <h2>Architectural Principles</h2>
+    <p>Cloudflare CLI adheres to three key engineering principles: speed, determinism, and safety. Authentication tokens are protected by default using the host operating system's native keystore (macOS Keychain, Windows DPAPI, and Linux Secret Service). For automation and scripts, explicit account scoping or token flags prevent accidental mutations across disparate Cloudflare accounts and production domains.</p>
+
+    <h2>Comprehensive Feature Set</h2>
+    <p>The CLI supports full management of Cloudflare zones, DNS record CRUD (including orange/grey cloud proxy toggling and BIND zone file import/export for lift-and-shift migrations), zone settings, unified SSL/TLS status inspection, page rules, and edge cache purging.</p>
+  </div>
+</body>
+</html>

@@ -1,0 +1,92 @@
+# Cloudflare CLI - Comprehensive Agent Reference Manual
+
+> An exhaustive technical manual for autonomous agents driving the Cloudflare CLI (`cloudflare`). Covers all supported commands across zones, DNS records, settings, SSL status, page rules, and cache purging for the Cloudflare API v4.
+
+## Core Capabilities
+- Full DNS record lifecycle management (create, read, update, delete).
+- Orange cloud / grey cloud proxy toggling on supported records (A, AAAA, CNAME).
+- BIND zone file import and export for zero-error DNS provider migrations.
+- Zone settings inspection and updates (SSL modes, always_use_https, TLS min version).
+- Consolidated SSL status inspection combining encryption mode, Universal SSL enablement, and edge cert pack verification.
+- URL page rules for granular HTTP/HTTPS enforcement.
+- Instant edge cache purge (entire zone or targeted file URLs).
+- Multi-account profile management backed by native OS hardware keystores.
+
+## Exit Codes and Error Envelopes
+
+Every error response on stderr conforms to the standard envelope structure:
+```json
+{
+  "code": "error_code_string",
+  "error": "Human readable summary",
+  "detail": "Extended debugging context and HTTP status",
+  "remediation": "Exact command or action needed to fix"
+}
+```
+
+Exit code numbers match the error code contract:
+- `0`: Success / OK
+- `1`: `error` - Unclassified failure, report and stop
+- `2`: `network` - Network or transport error, retry once then stop
+- `3`: `auth_required` - Token rejected, expired, or missing permissions; surface remediation verbatim
+- `4`: `not_found` - Zone or record not found; do not retry
+- `5`: `rate_limited` - Cloudflare API rate limit reached; back off before retrying
+- `6`: `invalid_input` - Invalid arguments, flags, or payload; fix the invocation
+- `7`: `no_account` - No account profile or API token specified; run `cloudflare accounts list` or `cloudflare login`
+
+## Safety Guardrails for Agents
+
+1. **Zone Resolution**:
+   Accepts either the zone domain name (e.g. `example.com`) or the 32-character hex ID. Always use domain names when available to avoid transcription errors.
+2. **Proxy Limitations**:
+   Only A, AAAA, and CNAME records can be proxied through Cloudflare edge servers (`--proxied` or `records proxy --on`). MX, TXT, and SRV records are strictly DNS-only and cannot be proxied.
+3. **BIND Migration Pattern**:
+   When migrating existing zones, use `records import --file zone.txt` which leaves records unproxied by default. This preserves existing behavior until DNS cutover is verified.
+4. **Mutations and Confirmation**:
+   Deletes are instantaneous and take no confirmation prompts. Inspect the record or zone beforehand.
+5. **Credential Safety**:
+   Never write API tokens to disk in plaintext files. Use `cloudflare accounts add` or pass via environment variable `CLOUDFLARE_API_TOKEN`.
+
+## Command Reference
+
+### Accounts
+```bash
+cloudflare login [name] [--api-token <token>] [--api-token-stdin] [--account-id <id>]
+cloudflare accounts add <name> [--api-token <token>] [--api-token-stdin] [--account-id <id>] [--force] [--no-verify]
+cloudflare accounts list [--check]
+cloudflare accounts test <name>
+cloudflare accounts remove <name> [--yes]
+```
+
+### Zones
+```bash
+cloudflare zones list [-a <account>] [--json]
+cloudflare zones get --zone <ZONE> [-a <account>] [--json]
+cloudflare zones add --name <DOMAIN> [--account-id <ID>] [--jump-start] [-a <account>] [--json]
+cloudflare zones purge-cache --zone <ZONE> (--everything | --file <URL>...) [-a <account>] [--json]
+```
+
+### Records
+```bash
+cloudflare records list --zone <ZONE> [--type <TYPE>] [--name <NAME>] [--per-page <N>] [-a <account>] [--json]
+cloudflare records export --zone <ZONE> [--out <FILE>] [-a <account>]
+cloudflare records import --zone <ZONE> --file <FILE> [--proxied] [-a <account>] [--json]
+cloudflare records add --zone <ZONE> --type <TYPE> --name <NAME> --content <VALUE> [--ttl <SECONDS>] [--priority <N>] [--proxied] [-a <account>] [--json]
+cloudflare records update --zone <ZONE> (--id <ID> | --name <NAME>) [--type <TYPE>] [--content <VALUE>] [--ttl <SECONDS>] [--proxied <BOOL>] [-a <account>] [--json]
+cloudflare records delete --zone <ZONE> (--id <ID> | --name <NAME>) [--type <TYPE>] [-a <account>] [--json]
+cloudflare records proxy --zone <ZONE> --name <NAME> [--type <TYPE>] (--on | --off) [-a <account>] [--json]
+```
+
+### Settings & SSL
+```bash
+cloudflare settings list --zone <ZONE> [-a <account>] [--json]
+cloudflare settings get --zone <ZONE> --name <NAME> [-a <account>] [--json]
+cloudflare settings set --zone <ZONE> --name <NAME> --value <VALUE> [-a <account>] [--json]
+cloudflare ssl status --zone <ZONE> [-a <account>] [--json]
+```
+
+### Page Rules
+```bash
+cloudflare pagerules list --zone <ZONE> [-a <account>] [--json]
+cloudflare pagerules add --zone <ZONE> --url <PATTERN> --always-use-https [--priority <N>] [--disabled] [-a <account>] [--json]
+```

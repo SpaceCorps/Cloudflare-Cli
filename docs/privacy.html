@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy · Cloudflare CLI</title>
+  <meta name="description" content="Privacy policy for Cloudflare CLI: Zero telemetry, local OS keystore credential storage, and developer data ownership principles.">
+  <link rel="canonical" href="https://spacecorps.github.io/Cloudflare-Cli/privacy.html">
+  <meta property="og:title" content="Privacy Policy · Cloudflare CLI">
+  <meta property="og:description" content="Privacy policy for Cloudflare CLI: Zero telemetry, local OS keystore credential storage, and developer data ownership principles.">
+  <meta property="og:url" content="https://spacecorps.github.io/Cloudflare-Cli/privacy.html">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://spacecorps.github.io/Cloudflare-Cli/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="is-agentic-site-type" content="content">
+  <style>
+    body { background: #090d16; color: #f1f5f9; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.7; padding: 40px 20px; }
+    .content-box { max-width: 800px; margin: 0 auto; background: rgba(22, 27, 46, 0.7); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 40px; }
+    h1 { font-size: 2.2rem; margin-bottom: 20px; color: #fff; }
+    h2 { font-size: 1.4rem; margin-top: 30px; margin-bottom: 12px; color: #38bdf8; }
+    p { margin-bottom: 16px; color: #94a3b8; }
+    a { color: #38bdf8; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .back { display: inline-block; margin-bottom: 24px; color: #6366f1; font-weight: 500; }
+  </style>
+</head>
+<body>
+  <div class="content-box">
+    <a href="./" class="back">&larr; Back to Cloudflare CLI</a>
+    <h1>Privacy Policy & Data Security</h1>
+    
+    <p>Last updated: September 24, 2026. This Privacy Policy details the data handling, storage practices, and network communications of the Cloudflare CLI executable and documentation website.</p>
+
+    <h2>1. Zero Telemetry & Local Execution</h2>
+    <p>Cloudflare CLI contains zero analytics beacons, zero tracking scripts, and zero telemetry collection. The tool operates strictly locally on your machine. Network calls are made exclusively to the official Cloudflare API endpoint (<code>https://api.cloudflare.com/client/v4/</code>) or to an explicit custom endpoint configured via <code>--endpoint</code> or <code>CLOUDFLARE_API_URL</code>.</p>
+
+    <h2>2. Cryptographic Credential Protection</h2>
+    <p>Cloudflare API tokens represent sensitive credentials. By default, Cloudflare CLI delegates token storage directly to your host operating system's native credential keystore: macOS Keychain via the security subsystem, Windows Data Protection API (DPAPI) encrypted under user-specific credentials, or Linux Secret Service via libsecret. Tokens are never stored in plain text unless explicitly opted into via <code>CLOUDFLARE_ALLOW_PLAINTEXT_STORE=1</code>.</p>
+
+    <h2>3. Local Configuration Metadata</h2>
+    <p>Non-sensitive metadata (such as profile names, account IDs, and timestamps) is stored in an owner-restricted YAML configuration file (<code>chmod 0600</code> on POSIX systems) located in standard system application directories (e.g. <code>~/Library/Application Support/cloudflare-cli</code> on macOS, <code>~/.config/cloudflare-cli</code> on Linux, or <code>%APPDATA%\cloudflare-cli</code> on Windows).</p>
+
+    <h2>4. Documentation Website</h2>
+    <p>This documentation website is hosted on GitHub Pages and contains no cookies, external tracking tags, or user fingerprinting scripts.</p>
+  </div>
+</body>
+</html>

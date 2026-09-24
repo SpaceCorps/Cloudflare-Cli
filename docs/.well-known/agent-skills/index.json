@@ -1,0 +1,11 @@
+{
+  "$schema": "https://schemas.agentskills.io/discovery/0.2.0/schema.json",
+  "skills": [
+    {
+      "name": "cloudflare-cli",
+      "description": "Manage Cloudflare DNS records, zones, zone settings, SSL encryption status, page rules, and cache purging via high-performance native Rust CLI.",
+      "type": "skill-md",
+      "url": "https://spacecorps.github.io/Cloudflare-Cli/llms.txt"
+    }
+  ]
+}

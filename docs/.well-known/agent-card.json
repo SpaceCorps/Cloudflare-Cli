@@ -1,0 +1,16 @@
+{
+  "name": "Cloudflare CLI Agent",
+  "description": "Agent interface and DNS/zone management automation tool for the Cloudflare API.",
+  "url": "https://spacecorps.github.io/Cloudflare-Cli/",
+  "version": "1.0.0",
+  "capabilities": ["dns", "zones", "ssl", "pagerules", "cache-purge", "bind-import-export"],
+  "skills": [
+    {
+      "name": "cloudflare-cli",
+      "url": "https://spacecorps.github.io/Cloudflare-Cli/llms.txt"
+    }
+  ],
+  "contact": {
+    "url": "https://spacecorps.github.io/Cloudflare-Cli/contact.html"
+  }
+}
