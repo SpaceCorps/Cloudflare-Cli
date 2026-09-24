@@ -1,7 +1,4 @@
-bin/
-obj/
-*.user
-*.suo
-.vs/
-nupkgs/
-nupkg/
+target/
+**/*.rs.bk
+*.tmp
+.lock
